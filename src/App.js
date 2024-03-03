@@ -15,6 +15,8 @@ const defaultArray = [
   {text:"Programar",
     completed: true},
   {text:"dormir",
+    completed: false},
+  {text:"Cantar una Canción",
     completed: false}
 ]
 function App() {
@@ -24,6 +26,15 @@ function App() {
 
   const completedToDos = toDos.filter(toDo => !!toDo.completed).length
   const totalToDos = toDos.length
+
+  const searchedToDos = toDos.filter(toDo => {
+                              const noTildes = (text) => {
+                                return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                              };
+                              const toDoText = noTildes(toDo.text.toLocaleLowerCase())
+                              const serachText = noTildes(searchValue.toLocaleLowerCase())
+                              return toDoText.includes(serachText)
+                            })
 
   return (
     <>
@@ -35,7 +46,7 @@ function App() {
       />
 
       <ToDoList>
-        {defaultArray.map(item => (
+        {searchedToDos.map(item => (
           <ToDoItem key={item.text} text={item.text} completed={item.completed}/>
         ))}
       </ToDoList>
