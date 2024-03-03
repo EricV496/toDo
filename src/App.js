@@ -22,7 +22,24 @@ const defaultArray = [
 function App() {
   const [toDos, setToDos] = React.useState(defaultArray)
   const [searchValue, setSerchValue] = React.useState('')
-  console.log('Los usuario buscan ' + searchValue)
+  
+  const completeToDo = (text) => {
+    const newToDos = [...toDos]
+    const toDoIndex = newToDos.findIndex(
+      (toDo) => toDo.text == text
+    )
+    newToDos[toDoIndex].completed = true
+    setToDos(newToDos)
+  }
+  
+  const deleteToDo = (text) => {
+    const newToDos = [...toDos]
+    const toDoIndex = newToDos.findIndex(
+      (toDo) => toDo.text == text
+    )
+    newToDos.splice(toDoIndex, 1)
+    setToDos(newToDos)
+  }
 
   const completedToDos = toDos.filter(toDo => !!toDo.completed).length
   const totalToDos = toDos.length
@@ -47,7 +64,13 @@ function App() {
 
       <ToDoList>
         {searchedToDos.map(item => (
-          <ToDoItem key={item.text} text={item.text} completed={item.completed}/>
+          <ToDoItem 
+              key={item.text} 
+              text={item.text} 
+              completed={item.completed}
+              onComplete={() => completeToDo(item.text)}
+              onDelete={() => deleteToDo(item.text)}
+          />
         ))}
       </ToDoList>
       

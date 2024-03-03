@@ -4,14 +4,18 @@ function ToDoItem(props){
     return (
       <li className='ToDoItem'>
         <span className={`Icon Icon-check 
-                            ${props.completed && "Icon-check--active"}`}>
+                            ${props.completed && "Icon-check--active"}`}
+              onClick={props.onComplete}
+                            >
                                 v
         </span>
         <p className={`ToDoItem-p 
                         ${props.completed && "ToDoItem-p--complete"}`}>
                             {props.text}
         </p>
-        <span className="Icon Icon-delete">x</span>
+        <span className="Icon Icon-delete"
+              onClick={props.onDelete}
+        >x</span>
       </li>
     )
 }
