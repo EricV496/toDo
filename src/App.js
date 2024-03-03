@@ -18,13 +18,17 @@ const defaultArray = [
     completed: false}
 ]
 function App() {
+  const [toDos, setToDos] = React.useState(defaultArray)
   const [searchValue, setSerchValue] = React.useState('')
   console.log('Los usuario buscan ' + searchValue)
+
+  const completedToDos = toDos.filter(toDo => !!toDo.completed).length
+  const totalToDos = toDos.length
 
   return (
     <>
 
-      <ToDoCounter completed={16} total={25} />
+      <ToDoCounter completed={completedToDos} total={totalToDos} />
       <ToDoSearch 
         searchValue={searchValue}
         setSerchValue={setSerchValue}
