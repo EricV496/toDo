@@ -18,16 +18,22 @@ const defaultArray = [
     completed: false}
 ]
 function App() {
+  const [searchValue, setSerchValue] = React.useState('')
+  console.log('Los usuario buscan ' + searchValue)
+
   return (
     <>
 
       <ToDoCounter completed={16} total={25} />
-      <ToDoSearch />
+      <ToDoSearch 
+        searchValue={searchValue}
+        setSerchValue={setSerchValue}
+      />
 
       <ToDoList>
-        {[defaultArray.map(item => (
+        {defaultArray.map(item => (
           <ToDoItem key={item.text} text={item.text} completed={item.completed}/>
-        ))]}
+        ))}
       </ToDoList>
       
       <CreateToDoButton />
