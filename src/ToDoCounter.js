@@ -1,6 +1,8 @@
-function ToDoCounter(){
+import './ToDoCounter.css'
+
+function ToDoCounter({ total, completed}){
     return (
-      <h1>Has completado 3 de 5 TODOS</h1>
+      <h1 className='ToDoCounter'>Has completado {completed} de {total} TODOS</h1>
     )
 }
 
