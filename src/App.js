@@ -7,20 +7,42 @@ import { ToDoItem } from './ToDoItem';
 import { CreateToDoButton } from './CreateToDoButton';
 import './App.css';
 
-const defaultArray = [
-  {text:"cortar cebolla",
-    completed: false},
-  {text:"llorar",
-    completed: true},
-  {text:"Programar",
-    completed: true},
-  {text:"dormir",
-    completed: false},
-  {text:"Cantar una Canción",
-    completed: false}
-]
+// const defaultArray = [
+//   {text:"cortar cebolla",
+//     completed: false},
+//   {text:"llorar",
+//     completed: true},
+//   {text:"Programar",
+//     completed: true},
+//   {text:"dormir",
+//     completed: false},
+//   {text:"Cantar una Canción",
+//     completed: false}
+// ]
+
+// localstorage.setItem('TODOS_V1', JSON.stringify(defaultArray))
+// localStorage.removeItem('TODOS_V1')
+function useLocalStorage(itemName, initialValue) {
+  const localStorageItem = localStorage.getItem(itemName)
+  let parsedItem
+  if(!localStorageItem){
+    localStorage.setItem(itemName, JSON.stringify([]))
+    parsedItem = initialValue
+  }else{
+    parsedItem = JSON.parse(localStorageItem)
+
+  }
+  const [item, setItem] = React.useState(parsedItem)
+
+  const saveItem = (newItem) => {
+    localStorage.setItem(itemName, JSON.stringify(newItem))
+    setItem(newItem)
+  } 
+
+  return [item, saveItem]
+}
 function App() {
-  const [toDos, setToDos] = React.useState(defaultArray)
+  const [toDos, saveToDos] = useLocalStorage('TODOS_V1', [])
   const [searchValue, setSerchValue] = React.useState('')
   
   const completeToDo = (text) => {
@@ -29,7 +51,7 @@ function App() {
       (toDo) => toDo.text == text
     )
     newToDos[toDoIndex].completed = true
-    setToDos(newToDos)
+    saveToDos(newToDos)
   }
   
   const deleteToDo = (text) => {
@@ -38,7 +60,7 @@ function App() {
       (toDo) => toDo.text == text
     )
     newToDos.splice(toDoIndex, 1)
-    setToDos(newToDos)
+    saveToDos(newToDos)
   }
 
   const completedToDos = toDos.filter(toDo => !!toDo.completed).length
