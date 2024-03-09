@@ -1,10 +1,6 @@
-import logo from './platzi.webp';
 import React from 'react';
-import { ToDoCounter } from './ToDoCounter';
-import { ToDoSearch } from './ToDoSearch';
-import { ToDoList } from './ToDoList';
-import { ToDoItem } from './ToDoItem';
-import { CreateToDoButton } from './CreateToDoButton';
+import { AppUI } from './AppUI';
+import { useLocalStorage } from './useLocalStorage';
 import './App.css';
 
 // const defaultArray = [
@@ -22,25 +18,7 @@ import './App.css';
 
 // localstorage.setItem('TODOS_V1', JSON.stringify(defaultArray))
 // localStorage.removeItem('TODOS_V1')
-function useLocalStorage(itemName, initialValue) {
-  const localStorageItem = localStorage.getItem(itemName)
-  let parsedItem
-  if(!localStorageItem){
-    localStorage.setItem(itemName, JSON.stringify([]))
-    parsedItem = initialValue
-  }else{
-    parsedItem = JSON.parse(localStorageItem)
 
-  }
-  const [item, setItem] = React.useState(parsedItem)
-
-  const saveItem = (newItem) => {
-    localStorage.setItem(itemName, JSON.stringify(newItem))
-    setItem(newItem)
-  } 
-
-  return [item, saveItem]
-}
 function App() {
   const [toDos, saveToDos] = useLocalStorage('TODOS_V1', [])
   const [searchValue, setSerchValue] = React.useState('')
@@ -48,7 +26,7 @@ function App() {
   const completeToDo = (text) => {
     const newToDos = [...toDos]
     const toDoIndex = newToDos.findIndex(
-      (toDo) => toDo.text == text
+      (toDo) => toDo.text === text
     )
     newToDos[toDoIndex].completed = true
     saveToDos(newToDos)
@@ -57,7 +35,7 @@ function App() {
   const deleteToDo = (text) => {
     const newToDos = [...toDos]
     const toDoIndex = newToDos.findIndex(
-      (toDo) => toDo.text == text
+      (toDo) => toDo.text === text
     )
     newToDos.splice(toDoIndex, 1)
     saveToDos(newToDos)
@@ -76,28 +54,15 @@ function App() {
                             })
 
   return (
-    <>
-
-      <ToDoCounter completed={completedToDos} total={totalToDos} />
-      <ToDoSearch 
-        searchValue={searchValue}
-        setSerchValue={setSerchValue}
-      />
-
-      <ToDoList>
-        {searchedToDos.map(item => (
-          <ToDoItem 
-              key={item.text} 
-              text={item.text} 
-              completed={item.completed}
-              onComplete={() => completeToDo(item.text)}
-              onDelete={() => deleteToDo(item.text)}
-          />
-        ))}
-      </ToDoList>
-      
-      <CreateToDoButton />
-    </>
+    <AppUI 
+      completedToDos={completedToDos}
+      totalToDos={totalToDos}
+      searchValue={searchValue}
+      setSerchValue={setSerchValue}
+      searchedToDos={searchedToDos}
+      completeToDo={completeToDo}
+      deleteToDo={deleteToDo}
+    />
   );
 }
 
