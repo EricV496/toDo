@@ -7,41 +7,40 @@ import { ToDosLoading } from '../ToDosLoading'
 import { ToDosError } from '../ToDosError'
 import { EmptyToDos } from '../EmptyToDos'
 import { CreateToDoButton } from '../CreateToDoButton';
+import { ToDoContext } from "../ToDoContext";
 
 function AppUI({
-    loading,
-    error,
-    completedToDos,
-    totalToDos,
-    searchValue,
-    setSerchValue,
-    searchedToDos,
-    completeToDo,
-    deleteToDo,
 }){
     return (
         <>
-            <ToDoCounter completed={completedToDos} total={totalToDos} />
-            <ToDoSearch 
-                searchValue={searchValue}
-                setSerchValue={setSerchValue}
-            />
+            <ToDoCounter />
+            <ToDoSearch />
 
-            <ToDoList>
-                {loading && <ToDosLoading/>}
-                {error && <ToDosError/>}
-                {(!loading && searchedToDos.length === 0)
-                    && <EmptyToDos/>}
-                {searchedToDos.map(item => (
-                <ToDoItem 
-                    key={item.text} 
-                    text={item.text} 
-                    completed={item.completed}
-                    onComplete={() => completeToDo(item.text)}
-                    onDelete={() => deleteToDo(item.text)}
-                />
-                ))}
-            </ToDoList>
+            <ToDoContext.Consumer>
+                {({
+                    loading,
+                    error,
+                    searchedToDos,
+                    completeToDo,
+                    deleteToDo,
+                }) => (
+                    <ToDoList>
+                        {loading && <ToDosLoading/>}
+                        {error && <ToDosError/>}
+                        {(!loading && searchedToDos.length === 0)
+                            && <EmptyToDos/>}
+                        {searchedToDos.map(item => (
+                            <ToDoItem 
+                            key={item.text} 
+                            text={item.text} 
+                            completed={item.completed}
+                            onComplete={() => completeToDo(item.text)}
+                            onDelete={() => deleteToDo(item.text)}
+                            />
+                            ))}
+                    </ToDoList>
+                )}
+            </ToDoContext.Consumer>
             
             <CreateToDoButton />
         </>
