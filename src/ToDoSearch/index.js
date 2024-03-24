@@ -1,9 +1,11 @@
 import React from 'react'
 import './ToDoSearch.css'
-function ToDoSearch({
-  searchValue,
-  setSerchValue
-}){
+import { ToDoContext } from '../ToDoContext'
+function ToDoSearch(){
+  const {
+    searchValue,
+    setSerchValue
+  } = React.useContext(ToDoContext)
     return (
       <input 
         className='ToDoSearch' 
