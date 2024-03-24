@@ -1,0 +1,17 @@
+.loadingIcon{
+    width: 25%;
+    height: 25%;
+    fill: #61dafa;
+    animation: rotate 6s linear infinite;
+    align-self: center;
+    margin-top: 50px;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
