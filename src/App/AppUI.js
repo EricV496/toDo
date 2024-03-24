@@ -3,9 +3,14 @@ import { ToDoCounter } from '../ToDoCounter';
 import { ToDoSearch } from '../ToDoSearch';
 import { ToDoList } from '../ToDoList';
 import { ToDoItem } from '../ToDoItem';
+import { ToDosLoading } from '../ToDosLoading'
+import { ToDosError } from '../ToDosError'
+import { EmptyToDos } from '../EmptyToDos'
 import { CreateToDoButton } from '../CreateToDoButton';
 
 function AppUI({
+    loading,
+    error,
     completedToDos,
     totalToDos,
     searchValue,
@@ -23,6 +28,10 @@ function AppUI({
             />
 
             <ToDoList>
+                {loading && <ToDosLoading/>}
+                {error && <ToDosError/>}
+                {(!loading && searchedToDos.length === 0)
+                    && <EmptyToDos/>}
                 {searchedToDos.map(item => (
                 <ToDoItem 
                     key={item.text} 
