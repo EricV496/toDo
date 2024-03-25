@@ -9,9 +9,9 @@ import { EmptyToDos } from '../EmptyToDos'
 import { CreateToDoButton } from '../CreateToDoButton';
 import { ToDoContext } from "../ToDoContext";
 import { Modal } from "../Modal";
+import { ToDoForm } from "../ToDoForm"
 
-function AppUI({
-}){
+function AppUI(){
     const {
         loading,
         error,
@@ -50,7 +50,7 @@ function AppUI({
             {
             openModal && (
                 <Modal>
-
+                    <ToDoForm />
                 </Modal>
                 )
             }
