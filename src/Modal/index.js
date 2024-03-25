@@ -6,7 +6,6 @@ function Modal({children}){
     return createPortal(
         <div className="ModalBackground">
             {children}
-            Es un modal
         </div>,
         document.getElementById('modal')
     )
