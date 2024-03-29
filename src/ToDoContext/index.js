@@ -43,6 +43,12 @@ function ToDoProvider({children}){
                             const serachText = noTildes(searchValue.toLocaleLowerCase())
                             return toDoText.includes(serachText)
                           })
+
+    const addToDo = (text) => {
+        const newToDos = [...toDos]
+        newToDos.push({text,completed : false})
+        saveToDos(newToDos)
+    }
     return (
         <ToDoContext.Provider value={{
             loading,
@@ -55,7 +61,8 @@ function ToDoProvider({children}){
             completeToDo,
             deleteToDo,
             openModal,
-            setOpenModal
+            setOpenModal,
+            addToDo
         }}>
             { children }
         </ToDoContext.Provider>
